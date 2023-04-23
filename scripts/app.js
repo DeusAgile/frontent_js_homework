@@ -23,10 +23,10 @@ function rerender() {
   for (const index in todos) {
     const element = document.createElement('div');
     element.classList.add('todo');
-    element.id = index
+    element.id = index;
     if (todos[index][1] === "todo") {
       element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
-                <div class="todo__comment">${todos[index][0]}</div>
+                <div onclick="changeTodo(${index})", class="todo__comment">${todos[index][0]}</div>
                 <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})"></input></div>
                 <button class="todo__delete" onclick="deleteTodo(${index})">
                   <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
@@ -75,6 +75,35 @@ function completeTodo(index) {
   }
 
   saveData();
+}
+
+function changeTodo(index) {
+  console.log(index);
+
+  element = document.getElementById(index);
+
+  element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
+                      <div><form id="tempForm", onsubmit="saveChanges(event, ${index})">
+                      <input name="newComment", value="${todos[index][0]}", /></form></div>
+                      <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})" /></div>
+                      <button class="todo__delete" onclick="deleteTodo(${index})">
+                        <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
+                      </button>`;
+
+}
+
+function saveChanges(event, index) {
+  event.preventDefault();
+
+  const data = event.target['newComment'].value
+  if (!data) {
+    return;
+  }
+
+  todos[index][0] = data;
+
+  saveData();
+  rerender();
 }
 
 function deleteTodo(index) {
