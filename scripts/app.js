@@ -78,6 +78,7 @@ function completeTodo(index) {
 }
 
 function changeTodo(index) {
+  rerender();
   element = document.getElementById(index);
 
   if (todos[index][1] === "todo") {
@@ -105,7 +106,7 @@ function changeTodo(index) {
 function saveChanges(event, index) {
   event.preventDefault();
 
-  const data = event.target['newComment'].value
+  const data = event.target['newComment'].value;
   if (!data) {
     return;
   }
