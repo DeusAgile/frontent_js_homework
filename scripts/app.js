@@ -27,14 +27,14 @@ function rerender() {
     if (todos[index][1] === "todo") {
       element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
                 <div onclick="changeTodo(${index})", class="todo__comment">${todos[index][0]}</div>
-                <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})"></input></div>
+                <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})" /></div>
                 <button class="todo__delete" onclick="deleteTodo(${index})">
                   <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
                 </button>`;
     } else if (todos[index][1] === "completed") {
       element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
-                <div class="todo__comment">${todos[index][0]}</div>
-                <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})", checked></input></div>
+                <div onclick="changeTodo(${index})", class="todo__comment">${todos[index][0]}</div>
+                <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})", checked /></div>
                 <button class="todo__delete" onclick="deleteTodo(${index})">
                   <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
                 </button>`;
@@ -78,17 +78,27 @@ function completeTodo(index) {
 }
 
 function changeTodo(index) {
-  console.log(index);
-
   element = document.getElementById(index);
 
-  element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
-                      <div><form id="tempForm", onsubmit="saveChanges(event, ${index})">
-                      <input name="newComment", value="${todos[index][0]}", /></form></div>
-                      <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})" /></div>
-                      <button class="todo__delete" onclick="deleteTodo(${index})">
-                        <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
-                      </button>`;
+  if (todos[index][1] === "todo") {
+    element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
+                        <div style="width: 70%"><form class="todo__form", onsubmit="saveChanges(event, ${index})">
+                        <input name="newComment", value="${todos[index][0]}", />
+                        <button class="button" type="submit">Сохранить</button></form></div>
+                        <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})" /></div>
+                        <button class="todo__delete" onclick="deleteTodo(${index})">
+                          <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
+                        </button>`;
+  } else if (todos[index][1] === "completed") {
+    element.innerHTML = `<div class="todo__day">Дело ${Number(index) + 1}</div>
+                        <div style="width: 70%"><form class="todo__form", onsubmit="saveChanges(event, ${index})">
+                        <input name="newComment", value="${todos[index][0]}", />
+                        <button class="button" type="submit">Сохранить</button></form></div>
+                        <div class="todo__checkbox"><input type="checkbox", name="completeTodo", onclick="completeTodo(${index})" checked /></div>
+                        <button class="todo__delete" onclick="deleteTodo(${index})">
+                          <img src="./images/delete.svg" alt="Удалить дело ${index + 1}" />
+                        </button>`;
+  } 
 
 }
 
